@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 """
 Crissy Programmer, An AT89S52 command-line programmer.
 
@@ -16,31 +17,18 @@ Options:
 import serial
 from intelhex import IntelHex
 from docopt import docopt
+import time
 
-STX = 0x01
-ETX = 0x03
-SERIAL_PORT = "SERIAL"
+SERIAL_PORT = "--port"
 HEX_FILE = "HEX_FILE"
-
-
-def sendPacket(packet):
-    chk = 0
-    for byte in packet:
-        chk = chk ^ byte
-
-    data = [STX]
-    data.append(packet.count)
-    data.extend(packet)
-    data.append(chk)
-    data.append(ETX)
-
 
 if __name__ == "__main__":
     arguments = docopt(__doc__, version="0.0.1")
 
-    #port = serial.Serial('/dev/ttyACM0', 9600)
+    hexfile = IntelHex(arguments[HEX_FILE]).todict()
 
-    hexfile = IntelHex('teste.hex').todict()
+    print("Porta serial: %s", arguments[SERIAL_PORT])
+    
+    print("Pronto, enviar os pacotes agora!");
     for addr, code in hexfile.items():
         print("%x : %x" %(addr, code))
-        #sendPacket([addr, code])
