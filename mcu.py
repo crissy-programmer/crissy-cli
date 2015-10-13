@@ -17,19 +17,23 @@ def open(port):
     time.sleep(3)
 
 def prog_enable():
-    ser.write('s')
+    ser.write([ord("s")])
 
 def erase_chip():
-    ser.write('e')
+    ser.write([ord("e")])
 
 def finalize():
-    ser.write('f')
+    ser.write([ord("f")])
 
 def write_progmem(addr, data):
     high,low = split(addr)
 
     # envia o endereco
-    ser.write(bytearray([ord('a'), low, ord('A'), high]))
+    addr_data = bytearray( [ord('a'), low, ord('A'), high] ) 
+    ser.write(addr_data)
 
     # envia o dado
-    ser.write(bytearray[ ord('w'), data ])
+    ser.write( bytearray( [ ord('w'), data ] ) )
+
+def close():
+    ser.close()
