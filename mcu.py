@@ -11,8 +11,9 @@ def split(data):
 
     return high, low
 
-def open(port):
+def open(port, baudrate=9600):
     ser.port = port
+    ser.baudrate = baudrate
     ser.open()
     time.sleep(3)
 
